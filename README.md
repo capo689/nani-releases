@@ -6,17 +6,19 @@ This is a **free beta**. Everything works and no license is needed.
 
 ## Download
 
+**Current version: 0.3.0**, released October 13, 2026. [What's new](CHANGELOG.md) · [All versions](https://github.com/capo689/nani-releases/releases)
+
 | Your computer | Download |
 |---|---|
-| Mac with Apple Silicon (M1, M2, M3, M4; most Macs since late 2020) | [Nani Accounting for Apple Silicon](https://github.com/capo689/nani-releases/releases/latest/download/Nani-Accounting-Mac-Apple-Silicon.dmg) |
-| Mac with an Intel processor | [Nani Accounting for Intel Mac](https://github.com/capo689/nani-releases/releases/latest/download/Nani-Accounting-Mac-Intel.dmg) |
-| Windows 10 or 11 | [Nani Accounting for Windows](https://github.com/capo689/nani-releases/releases/latest/download/Nani-Accounting-Windows-Setup.exe) |
+| Mac with Apple Silicon (M1, M2, M3, M4; most Macs since late 2020) | [Nani Accounting 0.3.0 for Apple Silicon](https://github.com/capo689/nani-releases/releases/download/v0.3.0/Nani-Accounting-0.3.0-Mac-Apple-Silicon.dmg) |
+| Mac with an Intel processor | [Nani Accounting 0.3.0 for Intel Mac](https://github.com/capo689/nani-releases/releases/download/v0.3.0/Nani-Accounting-0.3.0-Mac-Intel.dmg) |
+| Windows 10 or 11 | [Nani Accounting 0.3.0 for Windows](https://github.com/capo689/nani-releases/releases/download/v0.3.0/Nani-Accounting-0.3.0-Windows-Setup.exe) |
 
 Not sure which Mac you have? Apple menu > About This Mac. "Chip: Apple M..." means Apple Silicon; "Processor: Intel" means Intel.
 
 ## Try it with sample books
 
-Not ready to put your own books in? Download **[Acme Anvil Co. sample books](https://github.com/capo689/nani-releases/releases/latest/download/Acme-Anvil-Co-Sample-Books.zip)**: a complete, made-up small business (an anvil maker) with 21 months of bank, savings, card and loan statements, payroll, 100 invoices, receipts, contractors and a financed power hammer. 2025 is finished and closed, and September 2026 is left part-done so you can try everything: categorizing, the Interview, AI suggestions, customer payments, and the Inbox.
+Not ready to put your own books in? Download **[Acme Anvil Co. sample books (0.3.0)](https://github.com/capo689/nani-releases/releases/download/v0.3.0/Acme-Anvil-Co-Sample-Books-0.3.0.zip)**: a complete, made-up small business (an anvil maker) with 21 months of bank, savings, card and loan statements, payroll, 100 invoices, receipts, contractors and a financed power hammer. 2025 is finished and closed, and September 2026 is left part-done so you can try everything: categorizing, the Interview, AI suggestions, customer payments, and the Inbox.
 
 Unzip it and open **READ ME FIRST.txt**. In Nani, choose **Open another company file...** and pick **Acme Anvil Co.fqb**. Passphrase: `acme-anvil-demo`. Everything in it is invented; any resemblance to a real business is coincidence.
 
@@ -36,7 +38,7 @@ The beta isn't signed with an Apple or Microsoft certificate yet, so your comput
 
 ## Updates
 
-Nani checks for a new version when it opens and every few hours, and shows a banner when one is ready. Nothing installs until you click **Install and restart**. Every update is signed, and the app refuses any update that didn't come from Nani.
+To see which version you have, look at the bottom of Nani's sidebar (or on the start screen). Nani checks for a new version when it opens and every few hours, and shows a banner when one is ready. Nothing installs until you click **Install and restart**. Every update is signed, and the app refuses any update that didn't come from Nani.
 
 ## Your data
 
