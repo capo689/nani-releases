@@ -14,6 +14,12 @@ This is a **free beta**. Everything works and no license is needed.
 
 Not sure which Mac you have? Apple menu > About This Mac. "Chip: Apple M..." means Apple Silicon; "Processor: Intel" means Intel.
 
+## Try it with sample books
+
+Not ready to put your own books in? Download **[Acme Anvil Co. sample books](https://github.com/capo689/nani-releases/releases/latest/download/Acme-Anvil-Co-Sample-Books.zip)**: a complete, made-up small business (an anvil maker) with 21 months of bank, savings, card and loan statements, payroll, 100 invoices, receipts, contractors and a financed power hammer. 2025 is finished and closed, and September 2026 is left part-done so you can try everything: categorizing, the Interview, AI suggestions, customer payments, and the Inbox.
+
+Unzip it and open **READ ME FIRST.txt**. In Nani, choose **Open another company file...** and pick **Acme Anvil Co.fqb**. Passphrase: `acme-anvil-demo`. Everything in it is invented; any resemblance to a real business is coincidence.
+
 ## Installing the beta
 
 The beta isn't signed with an Apple or Microsoft certificate yet, so your computer will warn you the first time. That's expected.
