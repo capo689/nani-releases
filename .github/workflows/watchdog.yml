@@ -1,0 +1,63 @@
+# Nani watchdog: every 15 minutes, checks that people can buy, download and update Nani.
+# If a check fails twice in a row, it opens (or updates) an issue titled "Nani is down",
+# and GitHub emails the repository owner. When everything passes again, it closes the issue.
+# Public repository, so these runs are free. It reads public pages only: no secrets.
+name: watchdog
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "Open and close a test issue, to check the alert reaches your inbox"
+        type: boolean
+        default: false
+permissions:
+  issues: write
+concurrency: watchdog
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check Nani
+        id: check
+        shell: bash
+        run: |
+          fail=""
+          check() { # name, command that must succeed
+            if ! bash -c "$2" >/dev/null 2>&1; then sleep 45; bash -c "$2" >/dev/null 2>&1 || fail="$fail\n- $1"; fi
+          }
+          code() { curl -s -o /dev/null -w "%{http_code}" --max-time 30 "$1"; }
+          check "Store is up (store.naniaccounting.com)" 'curl -s --max-time 30 https://store.naniaccounting.com/api/health | grep -q "\"ok\":true"'
+          check "Store is up (store.adamcagle.com, the app's first address)" 'curl -s --max-time 30 https://store.adamcagle.com/api/health | grep -q "\"ok\":true"'
+          check "Founding count answers" 'curl -s --max-time 30 https://store.naniaccounting.com/api/founding | grep -q "\"price\":"'
+          check "naniaccounting.com has a Buy button" 'curl -sL --max-time 30 https://naniaccounting.com/ | grep -q "store.naniaccounting.com/api/buy"'
+          check "naniaccounting.com downloads list the Windows installer" 'curl -sL --max-time 30 https://naniaccounting.com/downloads | grep -q "Windows-Setup.exe"'
+          check "adamcagle.com/nani has a Buy button" 'curl -sL --max-time 30 https://adamcagle.com/nani | grep -q "store.naniaccounting.com/api/buy"'
+          check "Update file is published" 'curl -sL --max-time 30 https://github.com/capo689/nani-releases/releases/latest/download/latest.json | grep -q "\"version\":"'
+          # Checkout makes a real (unpaid, expiring) Stripe session, so check it once an hour, not every run.
+          if [ "$(date -u +%M)" -lt 15 ]; then
+            check "Buy opens Stripe checkout" '[ "$(curl -s -o /dev/null -w "%{redirect_url}" --max-time 40 https://store.naniaccounting.com/api/buy | cut -c1-34)" = "https://checkout.stripe.com/c/pay/" ]'
+          fi
+          if [ "${{ inputs.test }}" = "true" ]; then fail="\n- (test) This is a test of the Nani watchdog. It closes on the next run."; fi
+          echo -e "failures<<EOF\n$fail\nEOF" >> "$GITHUB_OUTPUT"
+      - name: Open, update or close the alert issue
+        uses: actions/github-script@v7
+        env:
+          FAILURES: ${{ steps.check.outputs.failures }}
+        with:
+          script: |
+            const failures = process.env.FAILURES.trim();
+            const { data: open } = await github.rest.issues.listForRepo({ ...context.repo, state: "open", labels: "watchdog" });
+            const issue = open[0];
+            const when = new Date().toISOString().replace("T", " ").slice(0, 16) + " UTC";
+            if (failures) {
+              const body = `Checks failing at ${when}:\n${failures}\n\nStore logs: https://vercel.com/capo689s-projects/nani-store/logs\nThis closes by itself when every check passes again.`;
+              if (issue) await github.rest.issues.createComment({ ...context.repo, issue_number: issue.number, body });
+              else await github.rest.issues.create({ ...context.repo, title: "Nani is down", labels: ["watchdog"], body, assignees: [context.repo.owner] });
+              core.setFailed(failures);
+            } else if (issue) {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: issue.number, body: `All checks pass again at ${when}.` });
+              await github.rest.issues.update({ ...context.repo, issue_number: issue.number, state: "closed" });
+            }
