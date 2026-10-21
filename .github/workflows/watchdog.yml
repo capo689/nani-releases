@@ -34,7 +34,7 @@ jobs:
           check "Founding count answers" 'curl -s --max-time 30 https://store.naniaccounting.com/api/founding | grep -q "\"price\":"'
           check "naniaccounting.com has a Buy button" 'curl -sL --max-time 30 https://naniaccounting.com/ | grep -q "store.naniaccounting.com/api/buy"'
           check "naniaccounting.com downloads list the Windows installer" 'curl -sL --max-time 30 https://naniaccounting.com/downloads | grep -q "Windows-Setup.exe"'
-          check "adamcagle.com/nani has a Buy button" 'curl -sL --max-time 30 https://adamcagle.com/nani | grep -q "store.naniaccounting.com/api/buy"'
+          check "adamcagle.com/nani sends people to naniaccounting.com" 'curl -sL --max-time 30 https://adamcagle.com/nani | grep -Eq "store.naniaccounting.com/api/buy|href=\"https://naniaccounting.com"'
           check "Update file is published" 'curl -sL --max-time 30 https://github.com/capo689/nani-releases/releases/latest/download/latest.json | grep -q "\"version\":"'
           # Checkout makes a real (unpaid, expiring) Stripe session, so check it once an hour, not every run.
           if [ "$(date -u +%M)" -lt 15 ]; then
